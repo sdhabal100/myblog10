@@ -1,5 +1,6 @@
 package com.demo.myblog10.service.impl;
 
+
 import com.demo.myblog10.entity.Post;
 import com.demo.myblog10.exception.ResourceNotFoundException;
 import com.demo.myblog10.paylode.PostDto;
@@ -16,13 +17,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class PosServiceImpl implements PostService {
+public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
 
     private ModelMapper modelMapper;
 
-    public PosServiceImpl(PostRepository postRepository,ModelMapper modelMapper) {
+    public PostServiceImpl(PostRepository postRepository, ModelMapper modelMapper) {
         this.postRepository = postRepository;
         this.modelMapper=modelMapper;
     }
@@ -31,7 +32,6 @@ public class PosServiceImpl implements PostService {
     public PostDto crestePost(PostDto postDto) {
         Post post = maptoEntity(postDto);
         Post savedPost = postRepository.save(post);
-
         PostDto dto = maptoDto(savedPost);
 
         return dto;
@@ -53,7 +53,7 @@ public class PosServiceImpl implements PostService {
     @Override
     public List<PostDto> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
         Sort sort = (sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
-        Pageable pageable =PageRequest.of(pageNo,pageSize, sort);
+        Pageable pageable = PageRequest.of(pageNo,pageSize, sort);
         Page<Post> pagePost = postRepository.findAll(pageable);
         List<Post> posts = pagePost.getContent();
         List<PostDto> dtos = posts.stream().map(p -> maptoDto(p)).collect(Collectors.toList());

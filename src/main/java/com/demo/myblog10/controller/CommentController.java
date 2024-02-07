@@ -1,10 +1,8 @@
 package com.demo.myblog10.controller;
 
-import com.demo.myblog10.entity.Comment;
 import com.demo.myblog10.paylode.CommentDto;
 import com.demo.myblog10.service.CommentService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +28,11 @@ public class CommentController {
     public ResponseEntity<String> deleteComment(@PathVariable long id){
         commentService.deleteComment(id);
         return new ResponseEntity<>("comment is deleted",HttpStatus.OK);
+    }
+    @PutMapping("/{id}/post/{postId}")
+    public ResponseEntity<CommentDto> updateComment(@PathVariable long id,@RequestBody CommentDto commentDto,@PathVariable long postId){
+        CommentDto dto = commentService.updateComment(id, commentDto,postId);
+        return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
 }
